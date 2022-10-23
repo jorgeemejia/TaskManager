@@ -3,6 +3,7 @@ const express = require('express')
 const app = express()
 const port = 3000
 const tasks = require('./routes/task')
+const connectDB = require('./db/connect')
 
 
 //since we wanna send jsons from our application and since we wanna access jsons we gotta use
@@ -16,11 +17,19 @@ app.get('/hello', (req,res)=> {
     res.send('<h1>Hello</h1>')
 })
 
+async function start() {
+    try {
+        await connectDB()
+        app.listen(port, (req,res)=> {
+            console.log(`listening to port ${port}`)
+        })
+    }
+    catch(error) {
+        console.log(error)
+    }
+}
 
-app.listen(port, (req,res)=> {
-    console.log(`listening to port ${port}`)
-})
-
+start()
 
 // app.get('/api/v1/tasks')         - get all the tasks
 // app.post('/api/v1/tasks')        - create a new task

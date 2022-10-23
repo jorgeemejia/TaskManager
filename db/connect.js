@@ -4,12 +4,15 @@ const connectionString =
 'mongodb+srv://Jorge:Fuckmemongo21@nodeexpressprojects.yv457ri.mongodb.net/TaskManager?retryWrites=true&w=majority'
 
 
-mongoose
-    .connect(connectionString, {
+const connectDB = (url) => {
+return mongoose
+        .connect(connectionString, {
+        //following lines remove deprecation errors
         useNewUrlParser:true,
         useCreateIndex:true,
         useFindAndModify:false,
         useUnifiedTopology:true,
-    })
-    .then(()=>console.log('CONNECTED TO THE DB'))
-    .catch((err) => console.log(err))
+})
+}
+
+module.exports = connectDB
