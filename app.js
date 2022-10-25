@@ -4,7 +4,7 @@ const app = express()
 const port = 3000
 const tasks = require('./routes/task')
 const connectDB = require('./db/connect')
-
+require('dotenv').config()
 
 //since we wanna send jsons from our application and since we wanna access jsons we gotta use
 //if not included data won't be available in req.body
@@ -19,7 +19,7 @@ app.get('/hello', (req,res)=> {
 
 async function start() {
     try {
-        await connectDB()
+        await connectDB(process.env.MONGO_URI)
         app.listen(port, (req,res)=> {
             console.log(`listening to port ${port}`)
         })
