@@ -4,6 +4,7 @@ const app = express()
 const port = 3000
 const tasks = require('./routes/task')
 const connectDB = require('./db/connect')
+const notFound = require('./middleware/not-found')
 require('dotenv').config()
 
 //since we wanna send jsons from our application and since we wanna access jsons we gotta use
@@ -15,6 +16,9 @@ app.use('/api/v1/tasks', tasks)
 
 //serve static files
 app.use(express.static('./public'))
+
+//handle 404 errors
+app.use(notFound)
 
 
 async function start() {
