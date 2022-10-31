@@ -13,9 +13,9 @@ app.use(express.json())
 //when encountering this route, use this middleware
 app.use('/api/v1/tasks', tasks)
 
-app.get('/hello', (req,res)=> {
-    res.send('<h1>Hello</h1>')
-})
+//serve static files
+app.use(express.static('./public'))
+
 
 async function start() {
     try {

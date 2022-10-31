@@ -32,13 +32,39 @@ const getTask = async (req, res) => {
     }
 }
 
-const updateTask = (req, res) => {
-    res.json({id:req.params.id})
+const deleteTask = async (req, res) => {
+    try {
+        const task = await Task.findOneAndDelete({_id:req.params.id})
+        if(!task) {
+            return res.status(404).json({msg:`No task with id : ${req.params.id}`})
+        }
+        res.status(200).json({ task })
+        // res.status(200).json({task:null, status: 'success'})
+    } catch (error) {
+        res.status(500).json({msg:error})
+    }
 }
 
-const deleteTask = (req, res) => {
-    res.json({id:req.params.id})
+const updateTask = async (req, res) => {
+    try {
+        //this js syntax says the value from .id in req.params is assigned to 
+        //a new variable, taskID
+        const {id:taskID} = req.params;
+        const task = await Task.findOneAndUpdate({_id:taskID}, req.body, {
+            new:true,
+            runValidators:true,
+        })
+
+        if(!task) {
+            return res.staus(404).json({msg: `No task with id: ${req.params.id}`})
+        }
+        res.status(200).json({task})
+    }
+    catch(error) {
+        res.status(500).json({msg:error})
+    }
 }
+
 
 
 
